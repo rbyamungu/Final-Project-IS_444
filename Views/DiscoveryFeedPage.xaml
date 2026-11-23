@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:Prototype_Final_Project.ViewModels"
+             xmlns:models="clr-namespace:Prototype_Final_Project.Models"
+             x:Class="Prototype_Final_Project.Views.DiscoveryFeedPage"
+             x:DataType="viewmodels:DiscoveryFeedViewModel"
+             Title="Demand Validation Feed"
+             BackgroundColor="#F8FAFC">
+
+    <Grid RowDefinitions="Auto, Auto, Auto, *" Margin="14,10">
+        <!-- Connectivity Warning Banner (Section 5 & 9) -->
+        <Border Grid.Row="0"
+                IsVisible="{Binding IsOffline}"
+                BackgroundColor="#FFF3CD"
+                Stroke="#FFEEC9"
+                StrokeThickness="1"
+                Padding="10,8"
+                Margin="0,0,0,8"
+                StrokeShape="RoundRectangle 6">
+            <HorizontalStackLayout Spacing="8" HorizontalOptions="Center">
+                <Label Text="⚠️" FontSize="14" VerticalOptions="Center" />
+                <Label Text="Offline Mode: Serving cached ideas from local SQLite database."
+                       TextColor="#856404"
+                       FontSize="12"
+                       FontAttributes="Bold"
+                       VerticalOptions="Center" />
+            </HorizontalStackLayout>
+        </Border>
+
+        <!-- Search Bar -->
+        <SearchBar Grid.Row="1"
+                   Placeholder="Search wishes, categories, apps..."
+                   Text="{Binding SearchText}"
+                   Margin="0,0,0,8"
+                   BackgroundColor="White" />
+
+        <!-- Sorting Filter Controls (Section 5) -->
+        <ScrollView Grid.Row="2" Orientation="Horizontal" HorizontalScrollBarVisibility="Never" Margin="0,0,0,10">
+            <HorizontalStackLayout Spacing="8">
+                <Button Text="🔥 Trending" 
+                        Command="{Binding ChangeFilterCommand}" 
+                        CommandParameter="Trending"
+                        Style="{StaticResource FilterButtonStyle}" />
+                <Button Text="⚡ Top Demand" 
+                        Command="{Binding ChangeFilterCommand}" 
+                        CommandParameter="Top"
+                        Style="{StaticResource FilterButtonStyle}" />
+                <Button Text="🕒 Recent" 
+                        Command="{Binding ChangeFilterCommand}" 
+                        CommandParameter="Recent"
+                        Style="{StaticResource FilterButtonStyle}" />
+                <Button Text="🚀 Claimed" 
+                        Command="{Binding ChangeFilterCommand}" 
+                        CommandParameter="Claimed"
+                        Style="{StaticResource FilterButtonStyle}" />
+            </HorizontalStackLayout>
+        </ScrollView>
+
+        <!-- Dynamic Collection View with Pull-to-Refresh -->
+        <RefreshView Grid.Row="3" 
+                     IsRefreshing="{Binding IsRefreshing}" 
+                     Command="{Binding RefreshFeedCommand}">
+            <CollectionView ItemsSource="{Binding Wishes}"
+                            SelectionMode="Single"
+                            SelectionChanged="OnWishSelected">
+                <CollectionView.EmptyView>
+                    <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Spacing="10" Margin="20,60">
+                        <Label Text="🔍" FontSize="36" HorizontalOptions="Center" />
+                        <Label Text="No wishes match your filter criteria." FontSize="15" FontAttributes="Bold" TextColor="#64748B" HorizontalOptions="Center" />
+                        <Label Text="Try adjusting the search query or switch back to Trending." FontSize="12" TextColor="#94A3B8" HorizontalOptions="Center" />
+                    </VerticalStackLayout>
+                </CollectionView.EmptyView>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:WishItem">
+                        <Border Margin="0,5" Padding="14" Style="{StaticResource CardBorderStyle}">
+                            <Grid RowDefinitions="Auto, Auto, Auto" ColumnDefinitions="*, Auto">
+                                <!-- Title and Metadata -->
+                                <VerticalStackLayout Grid.Row="0" Grid.Column="0" Spacing="4">
+                                    <Label Text="{Binding Title}" 
+                                           FontSize="16" 
+                                           FontAttributes="Bold" 
+                                           TextColor="{StaticResource TextPrimaryColor}"
+                                           LineBreakMode="TailTruncation" />
+                                    
+                                    <HorizontalStackLayout Spacing="6">
+                                        <Border BackgroundColor="#EEF2FF" Padding="6,2" StrokeShape="RoundRectangle 4">
+                                            <Label Text="{Binding Category}" FontSize="11" TextColor="#4338CA" FontAttributes="Bold" />
+                                        </Border>
+                                        <Border BackgroundColor="#F1F5F9" Padding="6,2" StrokeShape="RoundRectangle 4">
+                                            <Label Text="{Binding TargetPlatform}" FontSize="11" TextColor="#475569" />
+                                        </Border>
+                                        <Border IsVisible="{Binding ExistingAppName, Converter={StaticResource IsNotEmptyConverter}}" 
+                                                BackgroundColor="#FEF3C7" Padding="6,2" StrokeShape="RoundRectangle 4">
+                                            <Label Text="{Binding ExistingAppName, StringFormat='App: {0}'}" FontSize="11" TextColor="#92400E" />
+                                        </Border>
+                                    </HorizontalStackLayout>
+                                </VerticalStackLayout>
+
+                                <!-- Status Badge -->
+                                <Border Grid.Row="0" Grid.Column="1"
+                                        BackgroundColor="{Binding LifecycleStatus, Converter={StaticResource StatusColorConverter}}"
+                                        Padding="8,4"
+                                        VerticalOptions="Start"
+                                        StrokeShape="RoundRectangle 6">
+                                    <Label Text="{Binding LifecycleStatus, Converter={StaticResource StatusDisplayNameConverter}}" 
+                                           FontSize="10" 
+                                           TextColor="White" 
+                                           FontAttributes="Bold" />
+                                </Border>
+
+                                <!-- Problem Statement Preview -->
+                                <Label Grid.Row="1" Grid.ColumnSpan="2" 
+                                       Text="{Binding ProblemStatement}" 
+                                       FontSize="13" 
+                                       TextColor="#475569"
+                                       MaxLines="2" 
+                                       LineBreakMode="TailTruncation" 
+                                       Margin="0,8" />
+
+                                <!-- Interactive Upvote Row -->
+                                <HorizontalStackLayout Grid.Row="2" Grid.Column="0" Spacing="8" VerticalOptions="Center">
+                                    <Label Text="{Binding UpvoteCount, StringFormat='{0} votes'}" 
+                                           FontSize="13" 
+                                           TextColor="#2563EB"
+                                           FontAttributes="Bold" 
+                                           VerticalOptions="Center" />
+                                    
+                                    <Label IsVisible="{Binding HasUserUpvoted}"
+                                           Text="✓ You Voted"
+                                           FontSize="11"
+                                           TextColor="#16A34A"
+                                           FontAttributes="Bold"
+                                           VerticalOptions="Center" />
+                                </HorizontalStackLayout>
+
+                                <Button Grid.Row="2" Grid.Column="1"
+                                        Text="▲ Upvote"
+                                        Clicked="OnUpvoteClicked"
+                                        CommandParameter="{Binding .}"
+                                        HeightRequest="36"
+                                        Padding="14,0"
+                                        CornerRadius="6"
+                                        BackgroundColor="#2563EB"
+                                        TextColor="White">
+                                    <Button.Triggers>
+                                        <DataTrigger TargetType="Button" Binding="{Binding HasUserUpvoted}" Value="True">
+                                            <Setter Property="Text" Value="Upvoted 👍" />
+                                            <Setter Property="BackgroundColor" Value="#16A34A" />
+                                            <Setter Property="TextColor" Value="White" />
+                                        </DataTrigger>
+                                    </Button.Triggers>
+                                </Button>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </RefreshView>
+    </Grid>
+</ContentPage>

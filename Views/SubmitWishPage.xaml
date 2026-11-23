@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:Prototype_Final_Project.ViewModels"
+             x:Class="Prototype_Final_Project.Views.SubmitWishPage"
+             x:DataType="viewmodels:SubmitWishViewModel"
+             Title="Submit Software Wish"
+             BackgroundColor="#F8FAFC">
+
+    <ScrollView>
+        <VerticalStackLayout Spacing="16" Padding="18">
+            <!-- Header Banner -->
+            <Border BackgroundColor="#FFADB0" Padding="14" Stroke="#C7D2FE" StrokeShape="RoundRectangle 8">
+                <VerticalStackLayout Spacing="4">
+                    <Label Text="Signal Unmet Software Demand" FontSize="16" FontAttributes="Bold" TextColor="Blue" />
+                    <Label Text="Describe the tool or feature you wish existed. The community upvotes and mobile developers claim ideas to build." FontSize="12" TextColor="#3B82F6" />
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Mode Selector (Section 5) -->
+            <VerticalStackLayout Spacing="6">
+                <Label Text="Demand Type" FontAttributes="Bold" FontSize="14" TextColor="{StaticResource TextPrimaryColor}" />
+                <Picker SelectedItem="{Binding SelectedSubmissionType}"
+                        BackgroundColor="White"
+                        Title="Select submission category">
+                    <Picker.ItemsSource>
+                        <x:Array Type="{x:Type x:String}">
+                            <x:String>New App Concept</x:String>
+                            <x:String>Feature for Existing App</x:String>
+                        </x:Array>
+                    </Picker.ItemsSource>
+                </Picker>
+            </VerticalStackLayout>
+
+            <!-- Conditional Existing App Input (Section 5) -->
+            <VerticalStackLayout Spacing="6" IsVisible="{Binding IsFeatureRequest}">
+                <Label Text="Existing Application Name" FontAttributes="Bold" FontSize="14" TextColor="{StaticResource TextPrimaryColor}" />
+                <Entry Text="{Binding ExistingAppName}" 
+                       Placeholder="e.g. Spotify, Notion, Uber, Microsoft Excel"
+                       BackgroundColor="White" />
+            </VerticalStackLayout>
+
+            <!-- Wish Title -->
+            <VerticalStackLayout Spacing="6">
+                <Label Text="Wish Title" FontAttributes="Bold" FontSize="14" TextColor="{StaticResource TextPrimaryColor}" />
+                <Entry Text="{Binding WishTitle}" 
+                       Placeholder="Brief, compelling summary of requested solution"
+                       BackgroundColor="White" />
+            </VerticalStackLayout>
+
+            <!-- Target OS Platform -->
+            <VerticalStackLayout Spacing="6">
+                <Label Text="Target Operating System" FontAttributes="Bold" FontSize="14" TextColor="{StaticResource TextPrimaryColor}" />
+                <Picker SelectedItem="{Binding TargetPlatform}"
+                        BackgroundColor="White">
+                    <Picker.ItemsSource>
+                        <x:Array Type="{x:Type x:String}">
+                            <x:String>Cross-Platform (iOS + Android)</x:String>
+                            <x:String>iOS</x:String>
+                            <x:String>Android</x:String>
+                            <x:String>Web Application</x:String>
+                        </x:Array>
+                    </Picker.ItemsSource>
+                </Picker>
+            </VerticalStackLayout>
+
+            <!-- Category -->
+            <VerticalStackLayout Spacing="6">
+                <Label Text="Category" FontAttributes="Bold" FontSize="14" TextColor="{StaticResource TextPrimaryColor}" />
+                <Picker SelectedItem="{Binding Category}"
+                        BackgroundColor="White">
+                    <Picker.ItemsSource>
+                        <x:Array Type="{x:Type x:String}">
+                            <x:String>Productivity</x:String>
+                            <x:String>Developer Tools</x:String>
+                            <x:String>Finance</x:String>
+                            <x:String>Health &amp; Fitness</x:String>
+                            <x:String>Social</x:String>
+                            <x:String>Entertainment</x:String>
+                            <x:String>Utilities</x:String>
+                            <x:String>Travel</x:String>
+                        </x:Array>
+                    </Picker.ItemsSource>
+                </Picker>
+            </VerticalStackLayout>
+
+            <!-- Target User Persona -->
+            <VerticalStackLayout Spacing="6">
+                <Label Text="Target User Persona" FontAttributes="Bold" FontSize="14" TextColor="{StaticResource TextPrimaryColor}" />
+                <Entry Text="{Binding TargetPersona}" 
+                       Placeholder="e.g. College students, freelance designers, commuters"
+                       BackgroundColor="White" />
+            </VerticalStackLayout>
+
+            <!-- Problem Statement -->
+            <VerticalStackLayout Spacing="6">
+                <Label Text="Problem Statement &amp; Pain Point" FontAttributes="Bold" FontSize="14" TextColor="{StaticResource TextPrimaryColor}" />
+                <Editor Text="{Binding ProblemStatement}" 
+                        Placeholder="Describe what problem you face and why current tools fail to solve it..." 
+                        HeightRequest="120"
+                        BackgroundColor="White" />
+            </VerticalStackLayout>
+
+            <!-- Submit Button -->
+            <Button Text="Publish to Community Feed" 
+                    Command="{Binding SubmitWishCommand}" 
+                    HeightRequest="48" 
+                    CornerRadius="8" 
+                    Style="{StaticResource PrimaryButtonStyle}"
+                    Margin="0,10,0,0" />
+
+            <!-- Reset Button -->
+            <Button Text="Clear Form" 
+                    Command="{Binding ResetFormCommand}" 
+                    HeightRequest="36" 
+                    BackgroundColor="Transparent"
+                    TextColor="#64748B"
+                    Margin="0,0,0,20" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

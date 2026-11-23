@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:Prototype_Final_Project.ViewModels"
+             x:Class="Prototype_Final_Project.Views.AboutProjectPage"
+             x:DataType="viewmodels:AboutProjectViewModel"
+             Title="About Project"
+             BackgroundColor="#F8FAFC">
+
+    <ScrollView>
+        <VerticalStackLayout Spacing="16" Padding="18">
+
+            <!-- Hero Banner -->
+            <Border BackgroundColor="#1E3A8A" Padding="18" StrokeShape="RoundRectangle 8">
+                <VerticalStackLayout Spacing="6">
+                    <Label Text="This is just a Prototype For my Final in IS-444" FontSize="13" TextColor="#93C5FD" FontAttributes="Bold" />
+                    <Label Text="Crowd-Sourced Mobile Application Wishlist" FontSize="20" FontAttributes="Bold" TextColor="White" />
+                    <Label Text="Demand-Validation Platform • Prototype Specification" FontSize="13" TextColor="#BFDBFE" />
+                    <Label Text="Developed by: Rene Ruhigita (@rbyamungu)" FontSize="12" TextColor="#E0E7FF" Margin="0,2,0,0" FontAttributes="Italic" />
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Architecture Tiers Card -->
+            <Border Padding="16" Style="{StaticResource CardBorderStyle}">
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="🏛️ Architectural Tiers Implementation" FontSize="15" FontAttributes="Bold" TextColor="{StaticResource TextPrimaryColor}" />
+                    
+                    <Grid ColumnDefinitions="130, *" RowDefinitions="Auto, Auto, Auto, Auto, Auto" RowSpacing="10">
+                        <Label Grid.Row="0" Grid.Column="0" Text="Presentation:" FontAttributes="Bold" FontSize="12" TextColor="#1E40AF" />
+                        <Label Grid.Row="0" Grid.Column="1" Text=".NET MAUI XAML &amp; Shell Navigation" FontSize="12" TextColor="#334155" />
+
+                        <Label Grid.Row="1" Grid.Column="0" Text="State Layer:" FontAttributes="Bold" FontSize="12" TextColor="#1E40AF" />
+                        <Label Grid.Row="1" Grid.Column="1" Text="MVVM Pattern, INotifyPropertyChanged, ObservableCollection" FontSize="12" TextColor="#334155" />
+
+                        <Label Grid.Row="2" Grid.Column="0" Text="Local Storage:" FontAttributes="Bold" FontSize="12" TextColor="#1E40AF" />
+                        <Label Grid.Row="2" Grid.Column="1" Text="Embedded SQLite Async (sqlite-net-pcl)" FontSize="12" TextColor="#334155" />
+
+                        <Label Grid.Row="3" Grid.Column="0" Text="Network &amp; REST:" FontAttributes="Bold" FontSize="12" TextColor="#1E40AF" />
+                        <Label Grid.Row="3" Grid.Column="1" Text="System.Net.Http.HttpClient &amp; JsonContent" FontSize="12" TextColor="#334155" />
+
+                        <Label Grid.Row="4" Grid.Column="0" Text="Resilience Tier:" FontAttributes="Bold" FontSize="12" TextColor="#1E40AF" />
+                        <Label Grid.Row="4" Grid.Column="1" Text="Microsoft.Maui.Networking.Connectivity &amp; Offline Cache Sync" FontSize="12" TextColor="#334155" />
+                    </Grid>
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Reviewer Credentials Card -->
+            <Border Padding="16" Style="{StaticResource CardBorderStyle}">
+                <VerticalStackLayout Spacing="8">
+                    <Label Text="🔑 Reviewer Demo Accounts (Section 10)" FontSize="15" FontAttributes="Bold" TextColor="{StaticResource TextPrimaryColor}" />
+                    <Label Text="Pre-configured profiles for evaluation and grading:" FontSize="12" TextColor="#64748B" />
+
+                    <Border BackgroundColor="#F1F5F9" Padding="10" StrokeShape="RoundRectangle 6">
+                        <VerticalStackLayout Spacing="4">
+                            <Label Text="👤 Wisher Persona:" FontAttributes="Bold" FontSize="12" TextColor="#0F172A" />
+                            <Label Text="Email: wisher@stevenson.is444.edu | Pass: Demo2026!" FontSize="11" TextColor="#475569" />
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <Border BackgroundColor="#F1F5F9" Padding="10" StrokeShape="RoundRectangle 6">
+                        <VerticalStackLayout Spacing="4">
+                            <Label Text="💻 Verified Developer Persona:" FontAttributes="Bold" FontSize="12" TextColor="#0F172A" />
+                            <Label Text="Email: dev@ruhigita.com | Pass: Builder2026!" FontSize="11" TextColor="#475569" />
+                        </VerticalStackLayout>
+                    </Border>
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- 90-Day Validation Matrix -->
+            <Border Padding="16" Style="{StaticResource CardBorderStyle}">
+                <VerticalStackLayout Spacing="8">
+                    <Label Text="📊 90-Day Validation Targets" FontSize="15" FontAttributes="Bold" TextColor="{StaticResource TextPrimaryColor}" />
+                    
+                    <Grid ColumnDefinitions="*, *" RowDefinitions="Auto, Auto, Auto" RowSpacing="6">
+                        <Label Grid.Row="0" Grid.Column="0" Text="• 2,500 Registered Wishers" FontSize="12" TextColor="#334155" />
+                        <Label Grid.Row="0" Grid.Column="1" Text="• 500 Validated Concepts" FontSize="12" TextColor="#334155" />
+                        <Label Grid.Row="1" Grid.Column="0" Text="• 15+ Upvotes Baseline" FontSize="12" TextColor="#334155" />
+                        <Label Grid.Row="1" Grid.Column="1" Text="• 150 Verified Devs" FontSize="12" TextColor="#334155" />
+                        <Label Grid.Row="2" Grid.ColumnSpan="2" Text="• 25 Active Claimed Projects" FontSize="12" TextColor="#334155" />
+                    </Grid>
+                </VerticalStackLayout>
+            </Border>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
